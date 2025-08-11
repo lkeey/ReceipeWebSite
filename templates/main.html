@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <header>
+        <p>Вкусно</p>
+
+        <input type="text" placeholder="Поиск рецептов..." id="search">
+
+        <input type="button" value="Регистрация" id="register">
+    </header>
+
+    <div class="greeting">
+        <h1>Добро пожаловать в мир вкуса</h1>
+        <h2>Откройте для себя тысячи проверенных рецептов, делитесь своими кулинарными шедеврами и находите вдохновение для каждого приема пищи</h2>
+    </div>
+    
+    <div class="category">
+        <h3>Категории</h3>
+        <div class="type">
+            <a href="">Все</a>
+            <a href="">Супы</a>
+            <a href="">Паста</a>
+            <a href="">Мясо</a>
+            <a href="">Рыба</a>
+            <a href="">Салаты</a>
+            <a href="">Десерты</a>
+            <a href="">Закуски</a>
+            <a href="">Выпечка</a>
+        </div>
+    </div>
+
+</body>
+</html>
