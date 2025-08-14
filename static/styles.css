@@ -89,3 +89,58 @@ header > p {
     background-color: orangered;
 }
 
+/* Регистрация */
+
+.background-orange {
+    background-color: rgb(207, 132, 105);
+}
+
+form {
+    margin-top: 12px;
+    background-color: white;
+    border-radius: 20px;
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px 16px;
+}
+
+
+form > h1, p {
+    text-align: center;
+}
+
+.field {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.field > label {
+    display: block;
+    margin-bottom: 4px;
+}
+
+.field > input {
+    border-radius: 12px;
+    border: 1px solid black;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.submit-button {
+    width: 90%;
+    height: 40px;
+    color: white;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: orangered;
+    border: none;
+    font-size: 1.2rem;
+    border-radius: 12px;
+}
+
+p > a {
+    color: orangered;
+    text-decoration: none;
+}
