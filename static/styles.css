@@ -147,7 +147,7 @@ p > a {
 
 /* Добавление рецепта */
 textarea {
-    width: 100%;
+    width: 90%;
     border-radius: 12px;
     border: 1px solid black;
     padding: 8px 16px;
@@ -182,4 +182,64 @@ input[type="radio"] {
 
 input[type="file"] {
     margin-top: 5px;
+}
+
+/* Рецепты */
+
+.receipes {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.receipe_info {
+    margin-left: 40px;
+}
+
+.receipe {
+    background-color: antiquewhite;
+    border-radius: 20px;
+    margin-left: 40px;
+    margin-top: 20px;
+    max-width: 250px;
+    padding: 20px;
+}
+
+.receipe > img {
+    width: 200px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.receipe > h3 {
+    color: grey;
+}
+
+.receipe > p {
+    text-align: start;
+}
+
+/* Стили для лайков */
+.like-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.like_btn {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.like_btn:hover {
+    transform: scale(1.1);
+}
+
+.like-count {
+    font-size: 1rem;
+    color: #333;
 }

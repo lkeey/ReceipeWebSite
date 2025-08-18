@@ -7,7 +7,14 @@ receipes = {}
 
 @app.route("/")
 def main():
-    return render_template("main.html")
+    with open("database/receipes.json", "r") as f:
+        receipes = json.load(f)
+
+    # TODO: change to real name
+
+    return render_template(
+        "main.html", receipes=receipes, size=len(receipes.keys()), user_name="aleksey"
+    )
 
 
 @app.route("/login")
@@ -77,6 +84,25 @@ def create_receipe():
         return redirect("/")
 
     return render_template("create_receipe.html")
+
+
+@app.route("/like/<user_name>/<receipe_name>", methods=["POST"])
+def like(user_name, receipe_name):
+    with open("database/receipes.json", "r") as f:
+        receipes = json.load(f)
+
+    if "likes" not in receipes[receipe_name]:
+        receipes[receipe_name]["likes"] = [user_name]
+    else:
+        if user_name in receipes[receipe_name]["likes"]:
+            receipes[receipe_name]["likes"].remove(user_name)
+        else:
+            receipes[receipe_name]["likes"].append(user_name)
+
+    with open("database/receipes.json", "w") as f:
+        json.dump(receipes, f, ensure_ascii=False, indent=4)
+
+    return str(len(receipes[receipe_name].get("likes", [])))
 
 
 if __name__ == "__main__":

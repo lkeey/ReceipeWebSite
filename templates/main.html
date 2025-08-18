@@ -43,5 +43,69 @@
         </div>
     </div>
 
+    <h3 class="receipe_info">Популярные рецепты</h3>
+    <h5 class="receipe_info">Найдено рецептов: {{ size }}</h5>
+
+    <div class="receipes">
+        
+        {% for receipe in receipes %}
+            <div class="receipe">
+                <img src="{{ receipes[receipe]['image_url'] }}" alt="загрузка">
+                <h1>{{ receipes[receipe]["name"] }}</h1>
+                <h3>{{ receipes[receipe]["description"] }}</h3>
+                <p>{{ receipes[receipe]["time"] }} мин</p>
+                <p>{{ receipes[receipe]["portion"] }} порций</p>
+                <div class="like-container">
+                    <img src="https://cdn-icons-png.flaticon.com/512/10307/10307920.png" 
+                        alt="like" 
+                        class="like_btn" 
+                        data-user="{{ user_name }}" 
+                        data-receipe="{{ receipe }}">
+                    <span class="like-count">
+                        {% if receipes[receipe].get('likes') %}
+                            {{ receipes[receipe]['likes']|length }}
+                        {% else %}
+                            0
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            
+        {% endfor %}
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const likeButtons = document.querySelectorAll('.like_btn');
+        
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const user = this.getAttribute('data-user');
+                const receipe = this.getAttribute('data-receipe');
+                
+                fetch(`/like/${user}/${receipe}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.text())
+                .then(count => {
+                    // Обновляем счетчик лайков
+                    this.nextElementSibling.textContent = count;
+                    
+                    // Можно добавить визуальную обратную связь
+                    this.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 300);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+</script>
 </body>
 </html>
