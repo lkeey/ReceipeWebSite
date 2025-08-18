@@ -5,15 +5,14 @@ app = Flask(__name__)
 receipes = {}
 
 
+@app.route("/<user_name>")
 @app.route("/")
-def main():
+def main(user_name="none"):
     with open("database/receipes.json", "r") as f:
         receipes = json.load(f)
 
-    # TODO: change to real name
-
     return render_template(
-        "main.html", receipes=receipes, size=len(receipes.keys()), user_name="aleksey"
+        "main.html", receipes=receipes, size=len(receipes.keys()), user_name=user_name
     )
 
 
@@ -47,7 +46,7 @@ def register():
         with open("database/users.json", "w") as f:
             json.dump(users, f)
 
-        return redirect("/")
+        return redirect(f"/{username}")
 
     return render_template("register.html")
 
@@ -103,6 +102,21 @@ def like(user_name, receipe_name):
         json.dump(receipes, f, ensure_ascii=False, indent=4)
 
     return str(len(receipes[receipe_name].get("likes", [])))
+
+
+@app.route("/profile/<user_name>", methods=["GET"])
+def profile(user_name):
+    liked_receipes = {}
+
+    with open("database/receipes.json", "r") as f:
+        receipes = json.load(f)
+
+    for receipe in receipes:
+        if ("likes" in receipes[receipe]) and (user_name in receipes[receipe]["likes"]):
+            liked_receipes[receipe] = receipes[receipe]
+
+    return liked_receipes
+    # return render_template("profile.html", liked_receipes=liked_receipes)
 
 
 if __name__ == "__main__":
