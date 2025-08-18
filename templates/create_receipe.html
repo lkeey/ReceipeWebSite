@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить рецепт</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="background-orange">
+    <form method="POST" enctype="multipart/form-data">
+        <h1>Добавить новый рецепт</h1>
+        <p>Поделитесь своим кулинарным шедевром с сообществом</p>
+        
+        <div class="field">
+            <label for="name">Название рецепта:</label>
+            <input type="text" id="name" name="name" placeholder="Например: Лазанья" required>
+        </div>
+       
+        <div class="field">
+            <label for="description">Описание:</label>
+            <textarea id="description" name="description" placeholder="Расскажите о вашем рецепте" rows="4" required></textarea>
+        </div>
+
+        <div class="field">
+            <label for="image_url">Ссылка на изображение:</label>
+            <input type="url" id="image_url" name="image_url" placeholder="https://example.com/image.jpg">
+        </div>
+
+        <div class="field">
+            <label for="category">Категория:</label>
+            <select id="category" name="category" required>
+                <option value="">Выберите категорию</option>
+                <option value="суп">Суп</option>
+                <option value="лапша">Лапша</option>
+                <option value="салат">Салат</option>
+                <option value="выпечка">Выпечка</option>
+                <option value="десерт">Десерт</option>
+                <option value="напиток">Напиток</option>
+                <option value="другое">Другое</option>
+            </select>
+        </div>
+
+        <div class="field">
+            <label for="time">Время приготовления (минут):</label>
+            <input type="number" id="time" name="time" min="1" placeholder="30" required>
+        </div>
+
+        <div class="field">
+            <label for="portion">Количество порций:</label>
+            <input type="number" id="portion" name="portion" min="1" placeholder="4" required>
+        </div>
+
+        <div class="field">
+            <label>Сложность:</label>
+            <div class="radio-group">
+                <label><input type="radio" name="type" value="легко" required> Легко</label>
+                <label><input type="radio" name="type" value="средне"> Средне</label>
+                <label><input type="radio" name="type" value="сложно"> Сложно</label>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="ingredients">Ингредиенты:</label>
+            <textarea id="ingredients" name="ingredients" placeholder="Каждый ингредиент с новой строки или через запятую" rows="6" required></textarea>
+            <p style="font-size: 0.8rem; color: gray;">Например: мука, масло, яйца</p>
+        </div>
+
+        <div class="field">
+            <label for="instructions">Инструкция приготовления:</label>
+            <textarea id="instructions" name="instructions" placeholder="Подробно опишите шаги приготовления" rows="8" required></textarea>
+        </div>
+
+        <input type="submit" value="Добавить рецепт" class="submit-button">
+    </form>
+</body>
+</html>
