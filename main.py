@@ -119,5 +119,22 @@ def profile(user_name):
     # return render_template("profile.html", liked_receipes=liked_receipes)
 
 
+@app.route("/receipe/<receipe_name>/<user_name>", methods=["GET"])
+def detail_receipe(receipe_name, user_name):
+    with open("database/receipes.json", "r") as f:
+        receipes = json.load(f)
+
+    if receipe_name in receipes:
+        current_receipe = receipes[receipe_name]
+        return render_template(
+            "detail_receipe.html",
+            receipe=current_receipe,
+            user_name=user_name,
+            key=receipe_name,
+        )
+    else:
+        return "Рецепт не найден"
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=8080)

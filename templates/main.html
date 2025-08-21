@@ -49,28 +49,29 @@
     <div class="receipes">
         
         {% for receipe in receipes %}
-            <div class="receipe">
-                <img src="{{ receipes[receipe]['image_url'] }}" alt="загрузка">
-                <h1>{{ receipes[receipe]["name"] }}</h1>
-                <h3>{{ receipes[receipe]["description"] }}</h3>
-                <p>{{ receipes[receipe]["time"] }} мин</p>
-                <p>{{ receipes[receipe]["portion"] }} порций</p>
-                <div class="like-container">
-                    <img src="https://cdn-icons-png.flaticon.com/512/10307/10307920.png" 
-                        alt="like" 
-                        class="like_btn" 
-                        data-user="{{ user_name }}" 
-                        data-receipe="{{ receipe }}">
-                    <span class="like-count">
-                        {% if receipes[receipe].get('likes') %}
-                            {{ receipes[receipe]['likes']|length }}
-                        {% else %}
-                            0
-                        {% endif %}
-                    </span>
+            <a href="/receipe/{{ receipe }}/{{ user_name }}">
+                <div class="receipe">
+                    <img src="{{ receipes[receipe]['image_url'] }}" alt="загрузка">
+                    <h1>{{ receipes[receipe]["name"] }}</h1>
+                    <h3>{{ receipes[receipe]["description"] }}</h3>
+                    <p>{{ receipes[receipe]["time"] }} мин</p>
+                    <p>{{ receipes[receipe]["portion"] }} порций</p>
+                    <div class="like-container">
+                        <img src="https://cdn-icons-png.flaticon.com/512/10307/10307920.png" 
+                            alt="like" 
+                            class="like_btn" 
+                            data-user="{{ user_name }}" 
+                            data-receipe="{{ receipe }}">
+                        <span class="like-count">
+                            {% if receipes[receipe].get('likes') %}
+                                {{ receipes[receipe]['likes']|length }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </span>
+                    </div>
                 </div>
-            </div>
-            
+            </a>
         {% endfor %}
     </div>
 

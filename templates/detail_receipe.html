@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ receipe.name }} - Детальный просмотр</title>
+    <style>
+        /* Стили для детальной страницы */
+        .receipe-detail {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: antiquewhite;
+            border-radius: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .receipe-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .receipe-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .receipe-meta {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+            padding: 15px;
+            background-color: white;
+            border-radius: 15px;
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-label {
+            font-weight: bold;
+            color: #666;
+        }
+
+        .meta-value {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .ingredients-section, .instructions-section {
+            margin: 30px 0;
+        }
+
+        .ingredients-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .ingredients-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .ingredients-list li:last-child {
+            border-bottom: none;
+        }
+
+        .like-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .like_btn {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .like_btn:hover {
+            transform: scale(1.1);
+        }
+
+        .like-count {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .back-button {
+            display: inline-block;
+            margin: 20px 0;
+            padding: 10px 20px;
+            background-color: orangered;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        .back-button:hover {
+            background-color: #e63c00;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="back-button">← Назад к рецептам</a>
+    
+    <div class="receipe-detail">
+        <div class="receipe-header">
+            <h1>{{ receipe.name }}</h1>
+            <p class="category-badge">{{ receipe.category }}</p>
+        </div>
+
+        <img src="{{ receipe.image_url }}" alt="{{ receipe.name }}" class="receipe-image">
+
+        <p class="description">{{ receipe.description }}</p>
+
+        <div class="receipe-meta">
+            <div class="meta-item">
+                <span class="meta-label">Время приготовления</span>
+                <div class="meta-value">{{ receipe.time }} мин</div>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Порций</span>
+                <div class="meta-value">{{ receipe.portion }}</div>
+            </div>
+            <div class="meta-item">
+                <span class="meta-label">Сложность</span>
+                <div class="meta-value">{{ receipe.type }}</div>
+            </div>
+        </div>
+
+        <div class="like-container">
+            <img src="https://cdn-icons-png.flaticon.com/512/10307/10307920.png" 
+                 alt="like" 
+                 class="like_btn" 
+                 data-user="{{ user_name }}" 
+                 data-receipe="{{ key }}">
+            <span class="like-count">
+                {% if receipe.get('likes') %}
+                    {{ receipe.likes|length }}
+                {% else %}
+                    0
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="ingredients-section">
+            <h2>Ингредиенты</h2>
+            <ul class="ingredients-list">
+                {% for ingredient in receipe.ingredients %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if receipe.get('instructions') %}
+        <div class="instructions-section">
+            <h2>Способ приготовления</h2>
+            <p>{{ receipe.instructions }}</p>
+        </div>
+        {% endif %}
+
+        {% if receipe.get('tips') %}
+        <div class="tips-section">
+            <h2>Советы</h2>
+            <p>{{ receipe.tips }}</p>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const likeButtons = document.querySelectorAll('.like_btn');
+        
+        likeButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const user = this.getAttribute('data-user');
+                const receipe = this.getAttribute('data-receipe');
+                
+                fetch(`/like/${user}/${receipe}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                })
+                .then(response => response.text())
+                .then(count => {
+                    // Обновляем счетчик лайков
+                    this.nextElementSibling.textContent = count;
+                    
+                    // Можно добавить визуальную обратную связь
+                    this.style.transform = 'scale(1.2)';
+                    setTimeout(() => {
+                        this.style.transform = 'scale(1)';
+                    }, 300);
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        });
+    });
+</script>
+</body>
+</html>
